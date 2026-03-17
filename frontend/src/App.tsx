@@ -91,10 +91,6 @@ function App() {
                             <button className="moodboard-close" onClick={clearGeneration} aria-label="Close Moodboard">
                                 <CloseIcon />
                             </button>
-                            <div className="moodboard-image-container">
-                                <img src={generationData.image} alt="Generated Decor Idea" className="moodboard-image" />
-                                <div className="moodboard-badge">AI Vision</div>
-                            </div>
                             <div className="moodboard-shopping">
                                 <h3>Shop The Look</h3>
                                 <div className="product-list">

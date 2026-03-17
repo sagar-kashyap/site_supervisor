@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 
 const AUDIO_RATE = 16000;
 const VAD_THRESHOLD = 0.05; // Heuristic Volume Threshold for interruption
-const WS_URL = 'ws://localhost:8080';
+const WS_URL = 'wss://site-supervisor-backend-365055016226.us-central1.run.app';
 
 export function useGeminiLive() {
     const [connected, setConnected] = useState(false);
