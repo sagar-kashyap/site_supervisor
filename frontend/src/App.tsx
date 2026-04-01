@@ -1,7 +1,20 @@
+import { useState } from 'react';
 import { useGeminiLive } from './hooks/useGeminiLive';
 import './index.css';
 
 // SVG Icons
+const UpArrowIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+    </svg>
+);
+
+const DownArrowIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+    </svg>
+);
+
 const MicIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
@@ -27,13 +40,8 @@ const HandIcon = () => (
     </svg>
 );
 
-const CloseIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-    </svg>
-);
-
 function App() {
+    const [isMoodboardOpen, setIsMoodboardOpen] = useState(false);
     const { 
         connected, 
         status, 
@@ -42,8 +50,7 @@ function App() {
         connect, 
         disconnect, 
         toggleCamera, 
-        interruptAI,
-        clearGeneration
+        interruptAI
     } = useGeminiLive();
 
     const getStatusText = () => {
@@ -84,12 +91,24 @@ function App() {
                     <span>{getStatusText()}</span>
                 </div>
 
+                {/* Moodboard Dropup Toggle Button */}
+                {generationData && !isMoodboardOpen && (
+                    <button 
+                        className="moodboard-toggle" 
+                        onClick={() => setIsMoodboardOpen(true)}
+                        aria-label="Open Shop The Look"
+                    >
+                        <UpArrowIcon />
+                        <span>Shop The Look</span>
+                    </button>
+                )}
+
                 {/* Moodboard Overlay */}
-                <div className={`moodboard-overlay ${generationData ? 'visible' : ''}`}>
+                <div className={`moodboard-overlay ${isMoodboardOpen ? 'visible' : ''}`}>
                     {generationData && (
                         <div className="moodboard-content">
-                            <button className="moodboard-close" onClick={clearGeneration} aria-label="Close Moodboard">
-                                <CloseIcon />
+                            <button className="moodboard-close" onClick={() => setIsMoodboardOpen(false)} aria-label="Close Moodboard">
+                                <DownArrowIcon />
                             </button>
                             <div className="moodboard-shopping">
                                 <h3>Shop The Look</h3>

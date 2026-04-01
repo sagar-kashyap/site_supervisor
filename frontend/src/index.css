@@ -221,6 +221,40 @@ body {
   100% { transform: scale(1) rotate(360deg); opacity: 0.6; }
 }
 
+.moodboard-toggle {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 17, 21, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--surface-border);
+  border-radius: 999px;
+  color: var(--text-primary);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.moodboard-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(-50%) translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.moodboard-toggle svg {
+  width: 20px;
+  height: 20px;
+  color: var(--accent);
+}
+
 /* Moodboard Overlay Styles */
 .moodboard-overlay {
   position: absolute;
