@@ -3,6 +3,7 @@ import { useState, useRef, useCallback } from 'react';
 const AUDIO_RATE = 16000;
 const VAD_THRESHOLD = 0.05; // Heuristic Volume Threshold for interruption
 const WS_URL = import.meta.env.VITE_WS_URL;
+const CLIENT_API_KEY = import.meta.env.VITE_CLIENT_API_KEY || 'default-secret-key';
 
 export function useGeminiLive() {
     const [connected, setConnected] = useState(false);
@@ -41,7 +42,7 @@ export function useGeminiLive() {
             }
 
             // Setup WebSocket
-            wsRef.current = new WebSocket(WS_URL);
+            wsRef.current = new WebSocket(`${WS_URL}?token=${CLIENT_API_KEY}`);
             wsRef.current.binaryType = 'arraybuffer';
 
             wsRef.current.onopen = () => {

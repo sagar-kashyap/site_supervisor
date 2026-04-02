@@ -12,6 +12,8 @@ const wss = new WebSocketServer({ server });
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
 const HOST = process.env.HOST || '0.0.0.0';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const CLIENT_API_KEY = process.env.CLIENT_API_KEY || 'default-secret-key';
+
 
 app.get('/health', (req, res) => {
     res.status(200).send('OK');
@@ -19,7 +21,16 @@ app.get('/health', (req, res) => {
 
 const SYSTEM_INSTRUCTION = "You are an expert interior designer and practical property manager. You are looking through the user's camera feed to help them set up and inspect a short-term rental property. Provide concise, direct, and actionable advice. Focus on spatial layout, color palettes (especially incorporating modern earthy tones), hospitality standards, and identifying maintenance issues. If the user interrupts you, stop talking immediately and respond to their new direction.";
 
-wss.on('connection', async (ws: WebSocket) => {
+wss.on('connection', async (ws: WebSocket, req: http.IncomingMessage) => {
+    const urlParams = new URL(req.url || '', `http://${req.headers.host}`).searchParams;
+    const token = urlParams.get('token');
+
+    if (token !== CLIENT_API_KEY) {
+        console.log('Unauthorized connection attempt rejected.');
+        ws.close(1008, 'Unauthorized');
+        return;
+    }
+
     console.log('Client connected to local WebSocket.');
     let latestFrameData: string | null = null;
 
